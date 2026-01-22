@@ -39,4 +39,29 @@ public class TrucksController : BaseController<Truck>
         ViewBag.EditableStatuses = EnumHelper.FromEnumExcept(TruckStatuses.InTrip);
         ViewBag.AllStatuses = EnumHelper.FromEnum<TruckStatuses>();
     }
+
+    /// <summary>
+    /// Подтверждает удаление грузовика.
+    /// Удаление запрещено, если грузовик используется в рейсах.
+    /// </summary>
+    /// <param name="id">Идентификатор грузовика.</param>
+    /// <returns>
+    /// Представление подтверждения удаления с ошибкой
+    /// либо перенаправление на список грузовиков.
+    /// </returns>
+    public override IActionResult DeleteConfirmed(int id)
+    {
+        bool hasTrips = _context.Trips.Any(t => t.TruckId == id);
+
+        if (hasTrips)
+        {
+            ModelState.AddModelError(string.Empty,
+                "Нельзя удалить грузовик, который используется в рейсах.");
+
+            var truck = _context.Trucks.Find(id);
+            return View("Delete", truck);
+        }
+
+        return base.DeleteConfirmed(id);
+    }
 }

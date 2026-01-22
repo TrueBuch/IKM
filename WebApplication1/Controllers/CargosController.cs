@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
 using WebApplication1.Helpers;
 using WebApplication1.Models;
@@ -24,5 +25,30 @@ public class CargosController : BaseController<Cargo>
     {
         ViewBag.Types = EnumHelper.FromEnum<CargoTypes>();
         ViewBag.Statuses = EnumHelper.FromEnum<CargoStatuses>();
+    }
+
+    /// <summary>
+    /// Подтверждает удаление груза.
+    /// Удаление запрещено, если груз связан с рейсами.
+    /// </summary>
+    /// <param name="id">Идентификатор груза.</param>
+    /// <returns>
+    /// Представление подтверждения удаления с ошибкой
+    /// либо перенаправление на список грузов.
+    /// </returns>
+    public override IActionResult DeleteConfirmed(int id)
+    {
+        bool hasTrips = _context.Trips.Any(t => t.CargoId == id);
+
+        if (hasTrips)
+        {
+            ModelState.AddModelError(string.Empty,
+                "Нельзя удалить груз, который используется в рейсах.");
+
+            var cargo = _context.Cargos.Find(id);
+            return View("Delete", cargo);
+        }
+
+        return base.DeleteConfirmed(id);
     }
 }

@@ -141,4 +141,10 @@ public abstract class BaseController<TEntity> : Controller where TEntity : class
     /// Может быть переопределён в наследуемых контроллерах.
     /// </summary>
     protected virtual void LoadViewData() { }
+
+    protected virtual bool HasReferences(int id, out string errorMessage)
+    {
+        errorMessage = string.Empty;
+        return false;
+    }
 }

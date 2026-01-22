@@ -44,4 +44,29 @@ public class DriversController : BaseController<Driver>
 
         return View(drivers);
     }
+
+    /// <summary>
+    /// Подтверждает удаление водителя.
+    /// Удаление запрещено, если водитель участвует хотя бы в одном рейсе.
+    /// </summary>
+    /// <param name="id">Идентификатор водителя.</param>
+    /// <returns>
+    /// Представление подтверждения удаления с ошибкой
+    /// либо перенаправление на список водителей.
+    /// </returns>
+    public override IActionResult DeleteConfirmed(int id)
+    {
+        bool hasTrips = _context.Trips.Any(t => t.DriverId == id);
+
+        if (hasTrips)
+        {
+            ModelState.AddModelError(string.Empty,
+                "Нельзя удалить водителя, у которого есть связанные рейсы.");
+
+            var driver = _context.Drivers.Find(id);
+            return View("Delete", driver);
+        }
+
+        return base.DeleteConfirmed(id);
+    }
 }
