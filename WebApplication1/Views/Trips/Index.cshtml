@@ -1,0 +1,73 @@
+@model IEnumerable<WebApplication1.Models.Trip>
+
+@{
+    ViewData["Title"] = "Рейсы";
+}
+
+<h1 class="mb-3">Рейсы</h1>
+
+<a asp-action="Create" class="btn btn-success mb-3">Добавить</a>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Рейсы отсутствуют.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Маршрут</th>
+            <th>Водитель</th>
+            <th>Грузовик</th>
+            <th>Груз</th>
+            <th style="width: 240px;">Время</th>
+            <th>Статус</th>
+            <th style="width: 90px;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Route?.Origin → @item.Route?.Destination</td>
+
+            <td>@item.Driver?.FullName</td>
+
+            <td>@item.Truck?.PlateNumber</td>
+
+            <td>@item.Cargo?.Description</td>
+
+            <td class="text-nowrap">
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted small">Отправление:</span>
+                    <span class="@(item.DepartureDateActual.HasValue ? "text-white" : "text-muted") small">
+                        @(item.DepartureDateActual?.ToString("dd.MM.yyyy")
+                        ?? item.DepartureDate.ToString("dd.MM.yyyy"))
+                    </span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-1">
+                    <span class="text-muted small">Прибытие:</span>
+                    <span class="@(item.ArrivalDateActual.HasValue ? "text-white" : "text-muted") small">
+                        @(item.ArrivalDateActual?.ToString("dd.MM.yyyy")
+                        ?? item.ArrivalDate.ToString("dd.MM.yyyy"))
+                    </span>
+                </div>
+            </td>
+
+            <td>@item.TripStatus.GetDisplayName()</td>
+
+            <td class="text-nowrap text-center">
+                <a asp-action="Edit" asp-route-id="@item.Id"
+                class="btn btn-sm btn-primary me-1">✏️</a>
+                <a asp-action="Delete" asp-route-id="@item.Id"
+                class="btn btn-sm btn-danger">🗑️</a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+}

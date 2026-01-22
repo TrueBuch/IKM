@@ -1,0 +1,908 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApplication1</name>
+    </assembly>
+    <members>
+        <member name="T:BaseController`1">
+            <summary>
+            Базовый контроллер для CRUD-операций.
+            Предоставляет стандартные действия просмотра, создания,
+            редактирования и удаления сущностей.
+            </summary>
+            <typeparam name="TEntity">Тип сущности, с которой работает контроллер.</typeparam>
+        </member>
+        <member name="F:BaseController`1._context">
+            <summary>
+            Контекст базы данных приложения.
+            </summary>
+        </member>
+        <member name="M:BaseController`1.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр базового контроллера.
+            </summary>
+            <param name="context">Контекст базы данных.</param>
+        </member>
+        <member name="M:BaseController`1.Index">
+            <summary>
+            Отображает список всех сущностей.
+            </summary>
+            <returns>Представление со списком сущностей.</returns>
+        </member>
+        <member name="M:BaseController`1.Create">
+            <summary>
+            Отображает форму создания новой сущности.
+            </summary>
+            <returns>Представление создания сущности.</returns>
+        </member>
+        <member name="M:BaseController`1.Create(`0)">
+            <summary>
+            Обрабатывает отправку формы создания новой сущности.
+            </summary>
+            <param name="entity">Создаваемая сущность.</param>
+            <returns>
+            Перенаправление на список сущностей при успехе
+            или повторный вывод формы при ошибке валидации.
+            </returns>
+        </member>
+        <member name="M:BaseController`1.Edit(System.Int32)">
+            <summary>
+            Отображает форму редактирования сущности.
+            </summary>
+            <param name="id">Идентификатор сущности.</param>
+            <returns>Представление редактирования сущности.</returns>
+        </member>
+        <member name="M:BaseController`1.Edit(System.Int32,`0)">
+            <summary>
+            Обрабатывает отправку формы редактирования сущности.
+            </summary>
+            <param name="id">Идентификатор сущности.</param>
+            <param name="entity">Изменённая сущность.</param>
+            <returns>
+            Перенаправление на список сущностей при успехе
+            или повторный вывод формы при ошибке валидации.
+            </returns>
+        </member>
+        <member name="M:BaseController`1.Delete(System.Int32)">
+            <summary>
+            Отображает страницу подтверждения удаления сущности.
+            </summary>
+            <param name="id">Идентификатор сущности.</param>
+            <returns>Представление подтверждения удаления.</returns>
+        </member>
+        <member name="M:BaseController`1.DeleteConfirmed(System.Int32)">
+            <summary>
+            Подтверждает удаление сущности.
+            </summary>
+            <param name="id">Идентификатор сущности.</param>
+            <returns>Перенаправление на список сущностей.</returns>
+        </member>
+        <member name="M:BaseController`1.LoadViewData">
+            <summary>
+            Загружает данные для представлений (ViewBag, SelectList и т.д.).
+            Может быть переопределён в наследуемых контроллерах.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Controllers.CargosController">
+            <summary>
+            Контроллер для управления грузами.
+            Обеспечивает просмотр, добавление, редактирование и удаление грузов.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.CargosController.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр контроллера грузов.
+            </summary>
+            <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="M:WebApplication1.Controllers.CargosController.LoadViewData">
+            <summary>
+            Загружает данные, необходимые для представлений грузов.
+            Используется для заполнения списков типов и статусов грузов.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Controllers.DriversController">
+            <summary>
+            Контроллер для управления водителями.
+            Обеспечивает просмотр, добавление, редактирование и удаление водителей,
+            а также работу со статусами водителей.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.DriversController.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр контроллера водителей.
+            </summary>
+            <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="M:WebApplication1.Controllers.DriversController.LoadViewData">
+            <summary>
+            Загружает данные, необходимые для представлений водителей.
+            Формирует списки доступных статусов водителей.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.DriversController.Index">
+            <summary>
+            Отображает список водителей.
+            Свободные водители отображаются первыми, затем сортировка выполняется по фамилии.
+            </summary>
+            <returns>Представление со списком водителей.</returns>
+        </member>
+        <member name="T:WebApplication1.Controllers.HomeController">
+            <summary>
+            Главный контроллер приложения.
+            Отвечает за отображение главной страницы, общей статистики
+            и пересчёт статусов сущностей на основе текущих рейсов.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр главного контроллера.
+            </summary>
+            <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.Index">
+            <summary>
+            Отображает главную страницу приложения.
+            Формирует сводную информацию о количестве записей
+            в основных таблицах базы данных.
+            </summary>
+            <returns>Представление главной страницы.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.RefreshStatuses">
+            <summary>
+            Запускает пересчёт всех статусов в системе.
+            Используется для синхронизации статусов водителей,
+            грузовиков и грузов на основе текущего состояния рейсов.
+            </summary>
+            <returns>Перенаправление на главную страницу.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.Privacy">
+            <summary>
+            Отображает страницу с информацией о конфиденциальности.
+            </summary>
+            <returns>Представление страницы Privacy.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.RecalculateAllStatuses">
+            <summary>
+            Выполняет полный пересчёт статусов рейсов, водителей,
+            грузовиков и грузов.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.ResetAllStatuses">
+            <summary>
+            Сбрасывает статусы всех водителей, грузовиков и грузов
+            в значения по умолчанию перед повторным пересчётом.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.HomeController.ApplyActiveTrips">
+            <summary>
+            Применяет статусы активных и завершённых рейсов
+            к связанным водителям, грузовикам и грузам.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Controllers.RoutesController">
+            <summary>
+            Контроллер для управления маршрутами.
+            Обеспечивает операции просмотра, добавления,
+            редактирования и удаления маршрутов.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.RoutesController.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр контроллера маршрутов.
+            </summary>
+            <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="T:WebApplication1.Controllers.TripsController">
+            <summary>
+            Контроллер для управления рейсами.
+            Реализует просмотр, создание, редактирование и удаление рейсов,
+            а также бизнес-логику, связанную с автоматическим управлением
+            статусами водителей, грузовиков и грузов.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр контроллера рейсов.
+            </summary>
+            <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.Index">
+            <summary>
+            Отображает список всех рейсов с подгруженными связанными сущностями
+            (водитель, грузовик, груз, маршрут).
+            </summary>
+            <returns>Представление со списком рейсов.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.Create">
+            <summary>
+            Отображает форму создания нового рейса.
+            </summary>
+            <returns>Представление создания рейса.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.Edit(System.Int32)">
+            <summary>
+            Отображает форму редактирования существующего рейса.
+            </summary>
+            <param name="id">Идентификатор редактируемого рейса.</param>
+            <returns>Представление редактирования рейса.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.Create(WebApplication1.Models.Trip)">
+            <summary>
+            Обрабатывает создание нового рейса.
+            Выполняет перерасчёт статуса рейса, проверку конфликтов
+            и обновление связанных сущностей.
+            </summary>
+            <param name="trip">Создаваемый рейс.</param>
+            <returns>Редирект на список рейсов или форма с ошибками.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.Edit(System.Int32,WebApplication1.Models.Trip)">
+            <summary>
+            Обрабатывает редактирование существующего рейса.
+            </summary>
+            <param name="id">Идентификатор рейса.</param>
+            <param name="trip">Изменённые данные рейса.</param>
+            <returns>Редирект на список рейсов или форма с ошибками.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.LoadViewData">
+            <summary>
+            Загружает данные для выпадающих списков
+            без учёта текущего рейса.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.LoadViewData(WebApplication1.Models.Trip)">
+            <summary>
+            Загружает данные для выпадающих списков формы
+            с учётом редактируемого рейса.
+            </summary>
+            <param name="trip">
+            Редактируемый рейс или <c>null</c> при создании нового.
+            </param>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.ApplyTripSideEffects(WebApplication1.Models.Trip)">
+            <summary>
+            Применяет побочные эффекты рейса:
+            обновляет статусы водителя, грузовика и груза
+            в зависимости от текущего статуса рейса.
+            </summary>
+            <param name="trip">Рейс, для которого применяются изменения.</param>
+        </member>
+        <member name="M:WebApplication1.Controllers.TripsController.ValidateActiveTripConflicts(WebApplication1.Models.Trip,System.Nullable{System.Int32})">
+            <summary>
+            Проверяет наличие конфликтов активных рейсов:
+            запрещает наличие более одного выполняющегося рейса
+            у одного водителя или грузовика.
+            </summary>
+            <param name="trip">Проверяемый рейс.</param>
+            <param name="tripId">
+            Идентификатор редактируемого рейса
+            (используется для исключения самого себя).
+            </param>
+        </member>
+        <member name="T:WebApplication1.Data.AppDbContext">
+            <summary>
+            Контекст базы данных приложения.
+            Обеспечивает доступ к таблицам базы данных и управляет сущностями.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Data.AppDbContext.Drivers">
+            <summary>
+            Набор сущностей водителей.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Data.AppDbContext.Trucks">
+            <summary>
+            Набор сущностей грузовиков.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Data.AppDbContext.Cargos">
+            <summary>
+            Набор сущностей грузов.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Data.AppDbContext.Routes">
+            <summary>
+            Набор сущностей маршрутов.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Data.AppDbContext.Trips">
+            <summary>
+            Набор сущностей рейсов.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Data.AppDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{WebApplication1.Data.AppDbContext})">
+            <summary>
+            Инициализирует новый экземпляр контекста базы данных.
+            </summary>
+            <param name="options">Параметры конфигурации контекста.</param>
+        </member>
+        <member name="M:WebApplication1.Data.AppDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Конфигурирует модель базы данных при создании контекста.
+            Используется для дополнительной настройки сущностей и связей.
+            </summary>
+            <param name="modelBuilder">Построитель модели.</param>
+        </member>
+        <member name="T:WebApplication1.Models.Cargo">
+            <summary>
+            Сущность груза, предназначенная для перевозки в рамках рейсов.
+            Содержит информацию о параметрах груза, отправителе, получателе и статусе доставки.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.Id">
+            <summary>
+            Уникальный идентификатор груза.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.Description">
+            <summary>
+            Краткое описание груза.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.WeightTons">
+            <summary>
+            Вес груза в тоннах.
+            Значение должно быть больше нуля.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.Sender">
+            <summary>
+            Отправитель груза.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.Receiver">
+            <summary>
+            Получатель груза.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.Type">
+            <summary>
+            Тип груза (хрупкий, опасный и т.д.).
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Cargo.CargoStatus">
+            <summary>
+            Текущий статус груза.
+            По умолчанию — «Не доставлен».
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Models.Cargo.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Пользовательская валидация бизнес-правил груза.
+            </summary>
+            <param name="validationContext">Контекст валидации.</param>
+            <returns>Коллекция ошибок валидации.</returns>
+        </member>
+        <member name="T:WebApplication1.Models.CargoStatuses">
+            <summary>
+            Возможные статусы груза в процессе доставки.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoStatuses.Delivered">
+            <summary>
+            Груз успешно доставлен получателю.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoStatuses.NotDelivered">
+            <summary>
+            Груз создан, но ещё не отправлен.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoStatuses.InTransit">
+            <summary>
+            Груз находится в процессе перевозки.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Models.CargoTypes">
+            <summary>
+            Типы грузов, определяющие особенности их перевозки.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoTypes.Fragile">
+            <summary>
+            Хрупкий груз, требующий осторожной транспортировки.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoTypes.Solid">
+            <summary>
+            Твёрдый груз без особых условий перевозки.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoTypes.Dangerous">
+            <summary>
+            Опасный груз, требующий специальных условий перевозки.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.CargoTypes.Perishable">
+            <summary>
+            Скоропортящийся груз с ограниченным сроком хранения.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Models.Driver">
+            <summary>
+            Сущность водителя грузового транспорта.
+            Содержит персональные данные, контактную информацию и текущий статус занятости.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.Id">
+            <summary>
+            Уникальный идентификатор водителя.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.Surname">
+            <summary>
+            Фамилия водителя.
+            Может содержать только буквы и дефис.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.Name">
+            <summary>
+            Имя водителя.
+            Может содержать только буквы и дефис.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.MiddleName">
+            <summary>
+            Отчество водителя (необязательное поле).
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.BirthDate">
+            <summary>
+            Дата рождения водителя.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.PhoneNumber">
+            <summary>
+            Контактный номер телефона водителя.
+            Должен содержать только цифры.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.LicenseNumber">
+            <summary>
+            Номер водительского удостоверения.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.DriverStatus">
+            <summary>
+            Текущий статус водителя (свободен, в рейсе, в отпуске и т.д.).
+            По умолчанию — «Свободен».
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Driver.FullName">
+            <summary>
+            Полное имя водителя (ФИО).
+            Вычисляемое свойство, не сохраняется в базе данных.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Models.Driver.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Пользовательская бизнес-валидация данных водителя.
+            </summary>
+            <param name="validationContext">Контекст валидации.</param>
+            <returns>Коллекция ошибок валидации.</returns>
+        </member>
+        <member name="T:WebApplication1.Models.DriverStatuses">
+            <summary>
+            Возможные статусы водителя.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.DriverStatuses.Free">
+            <summary>
+            Водитель свободен и доступен для назначения в рейс.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.DriverStatuses.Vacation">
+            <summary>
+            Водитель находится в отпуске.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.DriverStatuses.Trip">
+            <summary>
+            Водитель участвует в рейсе.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.DriverStatuses.Sick">
+            <summary>
+            Водитель находится на больничном.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Models.Home">
+            <summary>
+            Модель главной страницы приложения.
+            Содержит агрегированную статистику по основным сущностям системы
+            управления грузоперевозками.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.DriversCount">
+            <summary>
+            Общее количество водителей в системе.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.TrucksCount">
+            <summary>
+            Общее количество грузовиков в системе.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.CargosCount">
+            <summary>
+            Общее количество грузов в системе.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.RoutesCount">
+            <summary>
+            Общее количество маршрутов.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.TripsCount">
+            <summary>
+            Общее количество рейсов.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.ActiveTrips">
+            <summary>
+            Количество рейсов, находящихся в процессе выполнения.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.FreeDrivers">
+            <summary>
+            Количество водителей, имеющих статус «Свободен».
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.BusyTrucks">
+            <summary>
+            Количество грузовиков, находящихся в рейсе.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Home.CargosInTransit">
+            <summary>
+            Количество грузов, находящихся в пути.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Models.Route">
+            <summary>
+            Сущность маршрута перевозки.
+            Описывает пункт отправления и пункт назначения.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Route.Id">
+            <summary>
+            Уникальный идентификатор маршрута.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Route.Origin">
+            <summary>
+            Пункт отправления маршрута.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Route.Destination">
+            <summary>
+            Пункт назначения маршрута.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Route.FullRoute">
+            <summary>
+            Полное представление маршрута в виде строки
+            «Пункт отправления → Пункт назначения».
+            Не сохраняется в базе данных.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Models.Route.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Выполняет дополнительную бизнес-валидацию маршрута.
+            </summary>
+            <param name="validationContext">Контекст валидации.</param>
+            <returns>Коллекция ошибок валидации.</returns>
+        </member>
+        <member name="T:WebApplication1.Models.Trip">
+            <summary>
+            Сущность рейса перевозки.
+            Связывает водителя, грузовик, груз и маршрут,
+            а также содержит плановые и фактические даты выполнения.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.Id">
+            <summary>
+            Уникальный идентификатор рейса.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.DriverId">
+            <summary>
+            Идентификатор водителя, выполняющего рейс.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.TruckId">
+            <summary>
+            Идентификатор грузовика, используемого в рейсе.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.CargoId">
+            <summary>
+            Идентификатор перевозимого груза.
+            Один груз может участвовать только в одном рейсе.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.RouteId">
+            <summary>
+            Идентификатор маршрута рейса.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.DepartureDate">
+            <summary>
+            Плановая дата отправления рейса.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.ArrivalDate">
+            <summary>
+            Плановая дата прибытия рейса.
+            Не может быть раньше даты отправления.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.DepartureDateActual">
+            <summary>
+            Фактическая дата отправления рейса.
+            Заполняется при начале выполнения рейса.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.ArrivalDateActual">
+            <summary>
+            Фактическая дата прибытия рейса.
+            Заполняется при завершении рейса.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.TripStatus">
+            <summary>
+            Текущий статус рейса.
+            Управляется автоматически на основе фактических дат.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.Driver">
+            <summary>
+            Навигационное свойство водителя.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.Truck">
+            <summary>
+            Навигационное свойство грузовика.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.Cargo">
+            <summary>
+            Навигационное свойство груза.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Trip.Route">
+            <summary>
+            Навигационное свойство маршрута.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Models.Trip.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Выполняет бизнес-валидацию рейса.
+            </summary>
+            <param name="validationContext">Контекст валидации.</param>
+            <returns>Коллекция ошибок валидации.</returns>
+        </member>
+        <member name="M:WebApplication1.Models.Trip.RecalculateStatus">
+            <summary>
+            Пересчитывает статус рейса на основе фактических дат.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Models.TripStatuses">
+            <summary>
+            Возможные статусы рейса.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.TripStatuses.Planned">
+            <summary>
+            Рейс запланирован, но ещё не начат.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.TripStatuses.InProgress">
+            <summary>
+            Рейс выполняется в данный момент.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.TripStatuses.Completed">
+            <summary>
+            Рейс завершён.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Models.Truck">
+            <summary>
+            Сущность грузовика.
+            Описывает транспортное средство, используемое для перевозки грузов.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.Id">
+            <summary>
+            Уникальный идентификатор грузовика.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.Brand">
+            <summary>
+            Марка грузовика.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.Model">
+            <summary>
+            Модель грузовика.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.Year">
+            <summary>
+            Год выпуска грузовика.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.CapacityTons">
+            <summary>
+            Максимальная грузоподъёмность грузовика в тоннах.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.PlateNumber">
+            <summary>
+            Регистрационный номер грузовика.
+            </summary>
+        </member>
+        <member name="P:WebApplication1.Models.Truck.TruckStatus">
+            <summary>
+            Текущий статус грузовика.
+            </summary>
+        </member>
+        <member name="M:WebApplication1.Models.Truck.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Выполняет бизнес-валидацию грузовика.
+            </summary>
+            <param name="validationContext">Контекст валидации.</param>
+            <returns>Коллекция ошибок валидации.</returns>
+        </member>
+        <member name="T:WebApplication1.Models.TruckStatuses">
+            <summary>
+            Возможные статусы грузовика.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.TruckStatuses.InTrip">
+            <summary>
+            Грузовик участвует в рейсе.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.TruckStatuses.InRepair">
+            <summary>
+            Грузовик находится на ремонте и недоступен для рейсов.
+            </summary>
+        </member>
+        <member name="F:WebApplication1.Models.TruckStatuses.Free">
+            <summary>
+            Грузовик свободен и доступен для назначения в рейс.
+            </summary>
+        </member>
+        <member name="T:WebApplication1.Helpers.CompareDateAttribute">
+            <summary>
+            Атрибут валидации для сравнения двух дат.
+            Проверяет, что значение текущего свойства
+            не меньше значения другого свойства объекта.
+            </summary>
+            <remarks>
+            Используется, например, для проверки того,
+            что дата прибытия не раньше даты отправления.
+            </remarks>
+        </member>
+        <member name="M:WebApplication1.Helpers.CompareDateAttribute.#ctor(System.String)">
+            <summary>
+            Инициализирует новый экземпляр атрибута сравнения дат.
+            </summary>
+            <param name="comparisonProperty">
+            Имя свойства, с которым необходимо сравнивать текущую дату.
+            </param>
+        </member>
+        <member name="M:WebApplication1.Helpers.CompareDateAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Выполняет проверку корректности значения даты.
+            </summary>
+            <param name="value">Значение текущего свойства.</param>
+            <param name="validationContext">
+            Контекст валидации, содержащий объект и его метаданные.
+            </param>
+            <returns>
+            <see cref="F:System.ComponentModel.DataAnnotations.ValidationResult.Success"/>, если значение корректно;
+            иначе объект <see cref="T:System.ComponentModel.DataAnnotations.ValidationResult"/> с описанием ошибки.
+            </returns>
+        </member>
+        <member name="T:WebApplication1.Helpers.EnumHelper">
+            <summary>
+            Вспомогательный класс для работы с перечислениями (enum).
+            Предоставляет методы для преобразования enum в элементы
+            пользовательского интерфейса и получения метаданных.
+            </summary>
+            <remarks>
+            Используется для:
+            <list type="bullet">
+            <item>формирования выпадающих списков (<see cref="T:Microsoft.AspNetCore.Mvc.Rendering.SelectListItem"/>)</item>
+            <item>получения отображаемых названий enum</item>
+            <item>получения значений enum, используемых в базе данных</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:WebApplication1.Helpers.EnumHelper.FromEnum``1">
+            <summary>
+            Преобразует перечисление в список элементов
+            для использования в выпадающем списке.
+            </summary>
+            <typeparam name="T">Тип перечисления.</typeparam>
+            <returns>
+            Список <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.SelectListItem"/>, содержащий все значения enum.
+            </returns>
+        </member>
+        <member name="M:WebApplication1.Helpers.EnumHelper.FromEnumExcept``1(``0[])">
+            <summary>
+            Преобразует перечисление в список элементов,
+            исключая указанные значения.
+            </summary>
+            <typeparam name="T">Тип перечисления.</typeparam>
+            <param name="excluded">
+            Значения enum, которые необходимо исключить из результата.
+            </param>
+            <returns>
+            Список <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.SelectListItem"/> без исключённых значений.
+            </returns>
+        </member>
+        <member name="M:WebApplication1.Helpers.EnumHelper.GetDisplayName(System.Enum)">
+            <summary>
+            Получает отображаемое имя значения перечисления.
+            </summary>
+            <param name="value">Значение enum.</param>
+            <returns>
+            Значение атрибута <see cref="P:System.ComponentModel.DataAnnotations.DisplayAttribute.Name"/>,
+            либо строковое представление enum, если атрибут отсутствует.
+            </returns>
+        </member>
+        <member name="M:WebApplication1.Helpers.EnumHelper.GetPgName(System.Enum)">
+            <summary>
+            Получает строковое значение перечисления,
+            используемое для хранения в базе данных PostgreSQL.
+            </summary>
+            <param name="value">Значение enum.</param>
+            <returns>
+            Значение атрибута <see cref="P:NpgsqlTypes.PgNameAttribute.PgName"/>,
+            либо строковое представление enum, если атрибут отсутствует.
+            </returns>
+        </member>
+        <member name="T:TrucksController">
+            <summary>
+            Контроллер для управления грузовиками.
+            Обеспечивает стандартные CRUD-операции и
+            загрузку допустимых статусов для форм создания и редактирования.
+            </summary>
+        </member>
+        <member name="M:TrucksController.#ctor(WebApplication1.Data.AppDbContext)">
+            <summary>
+            Инициализирует новый экземпляр контроллера грузовиков.
+            </summary>
+            <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="M:TrucksController.LoadViewData">
+            <summary>
+            Загружает данные, необходимые для представлений.
+            Формирует списки статусов грузовиков:
+            <list type="bullet">
+            <item>
+            <description>
+            <c>EditableStatuses</c> — статусы, доступные для выбора пользователем
+            (исключая статус «В рейсе»).
+            </description>
+            </item>
+            <item>
+            <description>
+            <c>AllStatuses</c> — полный список статусов грузовиков
+            для отображения текущего состояния.
+            </description>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+    </members>
+</doc>

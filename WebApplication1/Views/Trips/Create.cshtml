@@ -1,0 +1,64 @@
+@model WebApplication1.Models.Trip
+
+@{
+    ViewData["Title"] = "Добавить рейс";
+}
+
+<h1 class="mb-3">Добавить рейс</h1>
+
+<form asp-action="Create" method="post" class="card p-4">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="RouteId" class="form-label required"></label>
+        <select asp-for="RouteId" asp-items="ViewBag.Routes" class="form-select"></select>
+        <span asp-validation-for="RouteId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DriverId" class="form-label required"></label>
+        <select asp-for="DriverId" asp-items="ViewBag.Drivers" class="form-select"></select>
+        <span asp-validation-for="DriverId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TruckId" class="form-label required"></label>
+        <select asp-for="TruckId" asp-items="ViewBag.Trucks" class="form-select"></select>
+        <span asp-validation-for="TruckId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CargoId" class="form-label required"></label>
+        <select asp-for="CargoId" asp-items="ViewBag.Cargos" class="form-select"></select>
+        <span asp-validation-for="CargoId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Статус рейса</label>
+
+        <select class="form-select form-select-readonly" disabled>
+            <option selected>
+                @TripStatuses.Planned.GetDisplayName()
+            </option>
+        </select>
+
+        @Html.HiddenFor(m => m.TripStatus)
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DepartureDate" class="form-label required"></label>
+        <input asp-for="DepartureDate" type="date" class="form-control" />
+        <span asp-validation-for="DepartureDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ArrivalDate" class="form-label required"></label>
+        <input asp-for="ArrivalDate" type="date" class="form-control" />
+        <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

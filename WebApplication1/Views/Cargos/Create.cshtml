@@ -1,0 +1,54 @@
+@model WebApplication1.Models.Cargo
+@{
+    ViewData["Title"] = "Добавить груз";
+}
+
+<h1 class="mb-3">Добавить груз</h1>
+
+<form asp-action="Create" method="post" class="card p-4">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="WeightTons" class="form-label"></label>
+        <input asp-for="WeightTons" type="number" step="0.1" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Sender" class="form-label"></label>
+        <input asp-for="Sender" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Receiver" class="form-label"></label>
+        <input asp-for="Receiver" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Type" class="form-label"></label>
+        <select asp-for="Type"
+                asp-items="ViewBag.Types"
+                class="form-select">
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Статус</label>
+
+        <select class="form-select form-select-readonly" disabled>
+            <option selected>
+                @Model.CargoStatus.GetDisplayName()
+            </option>
+        </select>
+
+        @Html.HiddenFor(m => m.CargoStatus)
+    </div>
+
+
+    <button class="btn btn-success">Сохранить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

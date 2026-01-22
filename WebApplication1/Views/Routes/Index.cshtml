@@ -1,0 +1,34 @@
+@model IEnumerable<WebApplication1.Models.Route>
+
+@{
+    ViewData["Title"] = "Маршруты";
+}
+
+<h1 class="mb-3">Маршруты</h1>
+
+<a asp-action="Create" class="btn btn-success mb-3">Добавить</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>@Html.DisplayNameFor(m => m.First().Origin)</th>
+        <th>@Html.DisplayNameFor(m => m.First().Destination)</th>
+        <th style="width: 160px;"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Origin</td>
+            <td>@item.Destination</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id"
+                   class="btn btn-sm btn-primary">✏️</a>
+                <a asp-action="Delete" asp-route-id="@item.Id"
+                   class="btn btn-sm btn-danger">🗑️</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

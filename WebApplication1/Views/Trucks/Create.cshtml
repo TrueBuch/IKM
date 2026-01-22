@@ -1,0 +1,47 @@
+@model WebApplication1.Models.Truck
+@{
+    ViewData["Title"] = "Добавить грузовик";
+}
+
+<h1 class="mb-3">Добавить грузовик</h1>
+
+<form asp-action="Create" method="post" class="card p-4">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Brand" class="form-label"></label>
+        <input asp-for="Brand" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Model" class="form-label"></label>
+        <input asp-for="Model" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Year" class="form-label"></label>
+        <input asp-for="Year" type="number" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CapacityTons" class="form-label"></label>
+        <input asp-for="CapacityTons" type="number" step="0.1" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PlateNumber" class="form-label"></label>
+        <input asp-for="PlateNumber" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TruckStatus" class="form-label"></label>
+        <select asp-for="TruckStatus"
+                asp-items="ViewBag.EditableStatuses"
+                class="form-select">
+        </select>
+        <span asp-validation-for="TruckStatus" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-success">Сохранить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

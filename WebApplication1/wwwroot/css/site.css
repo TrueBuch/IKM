@@ -1,0 +1,117 @@
+/* === БАЗОВЫЕ НАСТРОЙКИ === */
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* === ССЫЛКИ И КНОПКИ === */
+
+a {
+    color: #6ea8fe;
+}
+
+a:hover {
+    color: #9ec5fe;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+/* Фокус (чтобы не слепил) */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.15rem rgba(37, 99, 235, 0.4);
+}
+
+/* === КАРТОЧКИ === */
+
+.card {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+/* === ТАБЛИЦЫ === */
+
+.table {
+    --bs-table-bg: #1e1e1e;
+    --bs-table-striped-bg: #232323;
+    --bs-table-border-color: #333;
+    color: #e0e0e0;
+}
+
+.table-dark {
+    --bs-table-bg: #1a1a1a;
+}
+
+/* === ФОРМЫ === */
+
+.form-control,
+.form-select {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.form-control::placeholder {
+    color: #aaaaaa;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
+/* === LABEL REQUIRED === */
+
+.required::after {
+    content: " *";
+    color: #ff5c5c;
+}
+
+/* === FOOTER === */
+
+footer {
+    background-color: #1a1a1a;
+    color: #aaaaaa;
+    border-top: 1px solid #333;
+}
+
+/* === NAVBAR (совместимо с bg-dark) === */
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #d1d5db;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}

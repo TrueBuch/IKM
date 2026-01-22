@@ -1,0 +1,25 @@
+@model WebApplication1.Models.Trip
+
+@{
+    ViewData["Title"] = "Удалить рейс";
+}
+
+<h1 class="text-danger mb-3">Удалить рейс</h1>
+
+<div class="alert alert-warning">
+    <p>Вы действительно хотите удалить рейс:</p>
+    <ul class="mb-0">
+        <li><b>Маршрут:</b> @Model.Route?.Origin → @Model.Route?.Destination</li>
+        <li><b>Водитель:</b> @Model.Driver?.Surname</li>
+        <li><b>Грузовик:</b> @Model.Truck?.PlateNumber</li>
+        <li><b>Груз:</b> @Model.Cargo?.Description</li>
+    </ul>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

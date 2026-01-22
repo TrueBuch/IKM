@@ -1,0 +1,106 @@
+@model WebApplication1.Models.Trip
+
+@{
+    ViewData["Title"] = "Редактировать рейс";
+}
+
+<h1 class="mb-3">Редактировать рейс</h1>
+
+<form asp-action="Edit" method="post" class="card p-4">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="RouteId" class="form-label required"></label>
+        <select asp-for="RouteId" asp-items="ViewBag.Routes" class="form-select"></select>
+        <span asp-validation-for="RouteId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DriverId" class="form-label required"></label>
+        <select asp-for="DriverId" asp-items="ViewBag.Drivers" class="form-select"></select>
+        <span asp-validation-for="DriverId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TruckId" class="form-label required"></label>
+        <select asp-for="TruckId" asp-items="ViewBag.Trucks" class="form-select"></select>
+        <span asp-validation-for="TruckId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CargoId" class="form-label required"></label>
+        <select asp-for="CargoId" asp-items="ViewBag.Cargos" class="form-select"></select>
+        <span asp-validation-for="CargoId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Статус рейса</label>
+        <input class="form-control form-select-readonly"
+               value="@Model.TripStatus.GetDisplayName()"
+               readonly />
+    </div>
+
+    @if (Model.TripStatus == TripStatuses.Planned)
+    {
+        <div class="mb-3">
+            <label asp-for="DepartureDate" class="form-label required"></label>
+            <input asp-for="DepartureDate" type="date" class="form-control" />
+            <span asp-validation-for="DepartureDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ArrivalDate" class="form-label required"></label>
+            <input asp-for="ArrivalDate" type="date" class="form-control" />
+            <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        <div class="mb-3">
+            <label class="form-label">Плановое отправление</label>
+            <input class="form-control" readonly
+                   value="@Model.DepartureDate.ToString("dd.MM.yyyy")" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Плановое прибытие</label>
+            <input class="form-control" readonly
+                   value="@Model.ArrivalDate.ToString("dd.MM.yyyy")" />
+        </div>
+    }
+
+    @if (Model.TripStatus != TripStatuses.Completed)
+    {
+        <div class="mb-3">
+            <label asp-for="DepartureDateActual" class="form-label"></label>
+            <input asp-for="DepartureDateActual" type="date" class="form-control" />
+            <span asp-validation-for="DepartureDateActual" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ArrivalDateActual" class="form-label"></label>
+            <input asp-for="ArrivalDateActual" type="date" class="form-control" />
+            <span asp-validation-for="ArrivalDateActual" class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        <div class="mb-3">
+            <label class="form-label">Фактическое отправление</label>
+            <input class="form-control" readonly
+                   value="@Model.DepartureDateActual?.ToString("dd.MM.yyyy")" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Фактическое прибытие</label>
+            <input class="form-control" readonly
+                   value="@Model.ArrivalDateActual?.ToString("dd.MM.yyyy")" />
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

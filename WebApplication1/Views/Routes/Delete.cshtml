@@ -1,0 +1,19 @@
+@model WebApplication1.Models.Route
+@{
+    ViewData["Title"] = "Удалить маршрут";
+}
+
+<h1 class="text-danger mb-3">Удалить маршрут</h1>
+
+<div class="alert alert-warning">
+    Удалить маршрут
+    <b>@Model.Origin → @Model.Destination</b>?
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <button class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

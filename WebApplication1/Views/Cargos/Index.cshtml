@@ -1,0 +1,53 @@
+@model IEnumerable<WebApplication1.Models.Cargo>
+
+@{
+    ViewData["Title"] = "Грузы";
+}
+
+<h1 class="mb-3">Грузы</h1>
+
+<a asp-action="Create" class="btn btn-success mb-3">Добавить</a>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Грузы отсутствуют.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Описание</th>
+            <th>Вес (т)</th>
+            <th>Тип</th>
+            <th>Отправитель</th>
+            <th>Получатель</th>
+            <th>Статус</th>
+            <th style="width:140px"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Description</td>
+                <td>@item.WeightTons</td>
+                <td>@item.Type.GetDisplayName()</td>
+                <td>@item.Sender</td>
+                <td>@item.Receiver</td>
+                <td>@item.CargoStatus.GetDisplayName()</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id"
+                       class="btn btn-sm btn-primary">✏️</a>
+                    <a asp-action="Delete"
+                       asp-route-id="@item.Id"
+                       class="btn btn-sm btn-danger">🗑️</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

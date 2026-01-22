@@ -1,0 +1,24 @@
+@model WebApplication1.Models.Driver
+
+@{
+    ViewData["Title"] = "Удалить водителя";
+}
+
+<h1 class="text-danger mb-3">Удалить водителя</h1>
+
+<div asp-validation-summary="ModelOnly"
+     class="alert alert-danger mb-3">
+</div>
+
+<div class="alert alert-warning">
+    Вы уверены, что хотите удалить водителя
+    <b>@Model.Surname @Model.Name</b>?
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>
