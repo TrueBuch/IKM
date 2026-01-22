@@ -101,6 +101,17 @@
             Используется для заполнения списков типов и статусов грузов.
             </summary>
         </member>
+        <member name="M:WebApplication1.Controllers.CargosController.DeleteConfirmed(System.Int32)">
+            <summary>
+            Подтверждает удаление груза.
+            Удаление запрещено, если груз связан с рейсами.
+            </summary>
+            <param name="id">Идентификатор груза.</param>
+            <returns>
+            Представление подтверждения удаления с ошибкой
+            либо перенаправление на список грузов.
+            </returns>
+        </member>
         <member name="T:WebApplication1.Controllers.DriversController">
             <summary>
             Контроллер для управления водителями.
@@ -126,6 +137,17 @@
             Свободные водители отображаются первыми, затем сортировка выполняется по фамилии.
             </summary>
             <returns>Представление со списком водителей.</returns>
+        </member>
+        <member name="M:WebApplication1.Controllers.DriversController.DeleteConfirmed(System.Int32)">
+            <summary>
+            Подтверждает удаление водителя.
+            Удаление запрещено, если водитель участвует хотя бы в одном рейсе.
+            </summary>
+            <param name="id">Идентификатор водителя.</param>
+            <returns>
+            Представление подтверждения удаления с ошибкой
+            либо перенаправление на список водителей.
+            </returns>
         </member>
         <member name="T:WebApplication1.Controllers.HomeController">
             <summary>
@@ -192,6 +214,17 @@
             Инициализирует новый экземпляр контроллера маршрутов.
             </summary>
             <param name="context">Контекст базы данных приложения.</param>
+        </member>
+        <member name="M:WebApplication1.Controllers.RoutesController.DeleteConfirmed(System.Int32)">
+            <summary>
+            Подтверждает удаление маршрута.
+            Удаление запрещено, если маршрут используется в рейсах.
+            </summary>
+            <param name="id">Идентификатор маршрута.</param>
+            <returns>
+            Представление подтверждения удаления с ошибкой
+            либо перенаправление на список маршрутов.
+            </returns>
         </member>
         <member name="T:WebApplication1.Controllers.TripsController">
             <summary>
@@ -898,6 +931,17 @@
             </item>
             </list>
             </summary>
+        </member>
+        <member name="M:TrucksController.DeleteConfirmed(System.Int32)">
+            <summary>
+            Подтверждает удаление грузовика.
+            Удаление запрещено, если грузовик используется в рейсах.
+            </summary>
+            <param name="id">Идентификатор грузовика.</param>
+            <returns>
+            Представление подтверждения удаления с ошибкой
+            либо перенаправление на список грузовиков.
+            </returns>
         </member>
         <member name="T:Program">
             <summary>
