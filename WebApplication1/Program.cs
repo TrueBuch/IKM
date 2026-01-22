@@ -19,7 +19,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-// builder.Services.AddScoped<TripStatusInitializer>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
